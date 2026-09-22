@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="role-wrap">
+    <aside class="sidebar">
+        <div class="nav-title">Organizer</div>
+        <nav class="nav-list">
+            <a class="nav-item" href="{{ url_for('organizer.dashboard') }}">Dashboard</a>
+            <a class="nav-item" href="{{ url_for('organizer.events') }}">My Events</a>
+            <a class="nav-item" href="{{ url_for('organizer.create_event') }}">Create Event</a>
+            <a class="nav-item active" href="{{ url_for('organizer.participants') }}">Participants</a>
+            <a class="nav-item" href="{{ url_for('organizer.activities') }}">Activities</a>
+            <a class="nav-item" href="{{ url_for('organizer.announcements') }}">Announcements</a>
+        </nav>
+    </aside>
+
+    <section class="main-panel">
+        <div class="panel-header">
+            <h2>Participants{% if event %} - {{ event.title }}{% endif %}</h2>
+        </div>
+        <div class="table-card">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Registered At</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for person in participants %}
+                    <tr>
+                        <td>{{ person.student.full_name }}</td>
+                        <td>{{ person.student.email }}</td>
+                        <td>{{ person.registered_at.strftime('%d %b %Y %H:%M') }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div>
+{% endblock %}

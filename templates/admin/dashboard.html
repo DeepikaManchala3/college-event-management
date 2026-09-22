@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="role-wrap">
+    <aside class="sidebar">
+        <div class="nav-title">Admin</div>
+        <nav class="nav-list">
+            <a class="nav-item active" href="{{ url_for('admin.dashboard') }}">Dashboard</a>
+            <a class="nav-item" href="{{ url_for('admin.events') }}">Events</a>
+            <a class="nav-item" href="{{ url_for('admin.approvals') }}">Event Approvals</a>
+            <a class="nav-item" href="{{ url_for('admin.registrations') }}">Registrations</a>
+            <a class="nav-item" href="{{ url_for('admin.venues') }}">Venues</a>
+            <a class="nav-item" href="{{ url_for('admin.reports') }}">Reports</a>
+            <a class="nav-item" href="{{ url_for('auth.logout') }}">Logout</a>
+        </nav>
+    </aside>
+
+    <section class="main-panel">
+        <div class="panel-header">
+            <h2>Admin Dashboard</h2>
+        </div>
+
+        <div class="stats-grid three">
+            <div class="stat-card">
+                <span class="stat-label">Total Events</span>
+                <strong>{{ total_events }}</strong>
+            </div>
+            <div class="stat-card">
+                <span class="stat-label">Pending Approvals</span>
+                <strong>{{ pending_events|length }}</strong>
+            </div>
+            <div class="stat-card">
+                <span class="stat-label">Students</span>
+                <strong>{{ total_users }}</strong>
+            </div>
+        </div>
+
+        <div class="section-card">
+            <div class="section-heading">
+                <h3>Pending Events</h3>
+            </div>
+            {% for event in pending_events %}
+            <div class="status-card">
+                <div>
+                    <h4>{{ event.title }}</h4>
+                    <p>{{ event.event_date.strftime('%d %b %Y') }} | {{ event.venue.name }} | {{ event.start_time.strftime('%H:%M') }} - {{ event.end_time.strftime('%H:%M') }}</p>
+                </div>
+                <div class="event-actions">
+                    <form method="post" action="{{ url_for('admin.approve_event', event_id=event.id) }}"><button class="btn btn-primary" type="submit">Approve</button></form>
+                    <form method="post" action="{{ url_for('admin.reject_event', event_id=event.id) }}"><button class="btn btn-danger" type="submit">Reject</button></form>
+                </div>
+            </div>
+            {% else %}
+            <div class="section-card">No pending approvals.</div>
+            {% endfor %}
+        </div>
+    </section>
+</div>
+{% endblock %}

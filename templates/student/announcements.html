@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="role-wrap">
+    <aside class="sidebar">
+        <div class="nav-title">Student</div>
+        <nav class="nav-list">
+            <a class="nav-item" href="{{ url_for('student.dashboard') }}">Dashboard</a>
+            <a class="nav-item" href="{{ url_for('student.events') }}">Events</a>
+            <a class="nav-item" href="{{ url_for('student.registrations') }}">My Registrations</a>
+            <a class="nav-item active" href="{{ url_for('student.announcements') }}">Announcements</a>
+        </nav>
+    </aside>
+
+    <section class="main-panel">
+        <div class="panel-header">
+            <h2>Announcements</h2>
+        </div>
+        {% for item in announcements %}
+        <div class="announcement-card">
+            <h4>{{ item.event.title }}</h4>
+            <strong>{{ item.title }}</strong>
+            <p>{{ item.message }}</p>
+        </div>
+        {% endfor %}
+    </section>
+</div>
+{% endblock %}

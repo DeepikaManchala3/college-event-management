@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="role-wrap">
+    <aside class="sidebar">
+        <div class="nav-title">Student</div>
+        <nav class="nav-list">
+            <a class="nav-item" href="{{ url_for('student.dashboard') }}">Dashboard</a>
+            <a class="nav-item" href="{{ url_for('student.events') }}">Events</a>
+            <a class="nav-item active" href="{{ url_for('student.registrations') }}">My Registrations</a>
+            <a class="nav-item" href="{{ url_for('student.announcements') }}">Announcements</a>
+        </nav>
+    </aside>
+
+    <section class="main-panel">
+        <div class="panel-header">
+            <h2>My Registrations</h2>
+        </div>
+        {% for registration in registrations %}
+        <div class="status-card">
+            <div>
+                <h4>{{ registration.event.title }}</h4>
+                <p>{{ registration.event.event_date.strftime('%d %b %Y') }} | {{ registration.event.venue.name }}</p>
+            </div>
+            <span class="tag success">Registered</span>
+        </div>
+        {% endfor %}
+    </section>
+</div>
+{% endblock %}

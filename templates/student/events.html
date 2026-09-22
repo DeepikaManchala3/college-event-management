@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="role-wrap">
+    <aside class="sidebar">
+        <div class="nav-title">Student</div>
+        <nav class="nav-list">
+            <a class="nav-item" href="{{ url_for('student.dashboard') }}">Dashboard</a>
+            <a class="nav-item active" href="{{ url_for('student.events') }}">Events</a>
+            <a class="nav-item" href="{{ url_for('student.registrations') }}">My Registrations</a>
+            <a class="nav-item" href="{{ url_for('student.announcements') }}">Announcements</a>
+        </nav>
+    </aside>
+
+    <section class="main-panel">
+        <div class="panel-header">
+            <h2>Upcoming Events</h2>
+        </div>
+        <form method="get" class="mb-3 d-flex gap-2">
+            <select name="category" class="form-select">
+                <option value="">All categories</option>
+                {% for category in ['Technical', 'Cultural', 'Sports', 'Workshop'] %}
+                <option value="{{ category }}" {% if selected_category == category %}selected{% endif %}>{{ category }}</option>
+                {% endfor %}
+            </select>
+            <button class="btn btn-secondary" type="submit">Filter</button>
+        </form>
+        {% for event in events %}
+        <div class="event-card large">
+            <div class="event-meta">
+                <h4>{{ event.title }}</h4>
+                <span>{{ event.category }}</span>
+            </div>
+            <div class="event-details">
+                <span>📅 {{ event.event_date.strftime('%d %b %Y') }}</span>
+                <span>🕒 {{ event.start_time.strftime('%H:%M') }} - {{ event.end_time.strftime('%H:%M') }}</span>
+                <span>📍 {{ event.venue.name }}</span>
+                <span>🎟️ Available seats: {{ event.max_capacity - event.registrations|length }}</span>
+            </div>
+            <div class="event-actions">
+                <a class="btn btn-primary" href="{{ url_for('student.event_details', event_id=event.id) }}">View Details</a>
+            </div>
+        </div>
+        {% endfor %}
+    </section>
+</div>
+{% endblock %}

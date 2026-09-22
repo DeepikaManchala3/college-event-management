@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="role-wrap">
+    <aside class="sidebar">
+        <div class="nav-title">Organizer</div>
+        <nav class="nav-list">
+            <a class="nav-item" href="{{ url_for('organizer.dashboard') }}">Dashboard</a>
+            <a class="nav-item active" href="{{ url_for('organizer.events') }}">My Events</a>
+            <a class="nav-item" href="{{ url_for('organizer.create_event') }}">Create Event</a>
+            <a class="nav-item" href="{{ url_for('organizer.participants') }}">Participants</a>
+            <a class="nav-item" href="{{ url_for('organizer.activities') }}">Activities</a>
+            <a class="nav-item" href="{{ url_for('organizer.announcements') }}">Announcements</a>
+        </nav>
+    </aside>
+    <section class="main-panel">
+        <div class="panel-header"><h2>My Events</h2><a class="btn btn-primary" href="{{ url_for('organizer.create_event') }}">Create Event</a></div>
+        {% for event in events %}
+        <div class="status-card">
+            <div>
+                <h4>{{ event.title }}</h4>
+                <p>{{ event.event_date.strftime('%d %b %Y') }} | {{ event.venue.name }} | {{ event.status }}</p>
+            </div>
+            <div class="event-actions">
+                <span class="tag {% if event.status == 'PUBLISHED' %}success{% else %}warning{% endif %}">{{ event.status }}</span>
+                <a class="btn btn-secondary" href="{{ url_for('organizer.edit_event', event_id=event.id) }}">Edit</a>
+                <a class="btn btn-secondary" href="{{ url_for('organizer.event_participants', event_id=event.id) }}">Participants</a>
+                <a class="btn btn-secondary" href="{{ url_for('organizer.event_activities', event_id=event.id) }}">Activities</a>
+                <a class="btn btn-secondary" href="{{ url_for('organizer.event_announcements', event_id=event.id) }}">Announcements</a>
+            </div>
+        </div>
+        {% else %}
+        <div class="section-card">No events created yet.</div>
+        {% endfor %}
+    </section>
+</div>
+{% endblock %}

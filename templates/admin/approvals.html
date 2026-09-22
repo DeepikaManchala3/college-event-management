@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="role-wrap">
+    <aside class="sidebar">
+        <div class="nav-title">Admin</div>
+        <nav class="nav-list">
+            <a class="nav-item" href="{{ url_for('admin.dashboard') }}">Dashboard</a>
+            <a class="nav-item" href="{{ url_for('admin.events') }}">Events</a>
+            <a class="nav-item active" href="{{ url_for('admin.approvals') }}">Event Approvals</a>
+            <a class="nav-item" href="{{ url_for('admin.registrations') }}">Registrations</a>
+            <a class="nav-item" href="{{ url_for('admin.venues') }}">Venues</a>
+            <a class="nav-item" href="{{ url_for('admin.reports') }}">Reports</a>
+        </nav>
+    </aside>
+
+    <section class="main-panel">
+        <div class="panel-header">
+            <h2>Pending Events</h2>
+        </div>
+        {% for event in pending_events %}
+        <div class="status-card">
+            <div>
+                <h4>{{ event.title }}</h4>
+                <p>{{ event.event_date.strftime('%d %b %Y') }} | {{ event.venue.name }} | {{ event.start_time.strftime('%H:%M') }} - {{ event.end_time.strftime('%H:%M') }}</p>
+            </div>
+            <div class="event-actions">
+                <form method="post" action="{{ url_for('admin.approve_event', event_id=event.id) }}"><button class="btn btn-primary" type="submit">Approve</button></form>
+                <form method="post" action="{{ url_for('admin.reject_event', event_id=event.id) }}"><input name="reason" placeholder="Optional reason"><button class="btn btn-danger" type="submit">Reject</button></form>
+            </div>
+        </div>
+        {% else %}
+        <div class="section-card">No pending approvals.</div>
+        {% endfor %}
+    </section>
+</div>
+{% endblock %}

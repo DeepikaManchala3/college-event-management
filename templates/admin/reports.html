@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="role-wrap">
+    <aside class="sidebar">
+        <div class="nav-title">Admin</div>
+        <nav class="nav-list">
+            <a class="nav-item" href="{{ url_for('admin.dashboard') }}">Dashboard</a>
+            <a class="nav-item" href="{{ url_for('admin.events') }}">Events</a>
+            <a class="nav-item" href="{{ url_for('admin.approvals') }}">Event Approvals</a>
+            <a class="nav-item" href="{{ url_for('admin.registrations') }}">Registrations</a>
+            <a class="nav-item" href="{{ url_for('admin.venues') }}">Venues</a>
+            <a class="nav-item active" href="{{ url_for('admin.reports') }}">Reports</a>
+        </nav>
+    </aside>
+
+    <section class="main-panel">
+        <div class="panel-header">
+            <h2>Reports</h2>
+        </div>
+        <div class="detail-card">
+            <h3>System Report</h3>
+            <div class="detail-grid">
+                <span>Published events: {{ published_events }}</span>
+                <span>Completed events: {{ completed_events }}</span>
+                <span>Total registrations: {{ total_registrations }}</span>
+            </div>
+        </div>
+        <div class="table-card">
+            <h3>Registrations by event</h3>
+            <table>
+                <thead><tr><th>Event</th><th>Registrations</th></tr></thead>
+                <tbody>
+                    {% for title, count in registrations_by_event %}<tr><td>{{ title }}</td><td>{{ count }}</td></tr>{% else %}<tr><td colspan="2">No event data yet.</td></tr>{% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div>
+{% endblock %}
