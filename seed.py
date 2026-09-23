@@ -14,6 +14,21 @@ def ensure_seed_data():
             )
         )
 
+    demo_accounts = [
+        ("Harsh Organizer", "harsh@gmail.com", "Organizer"),
+        ("Deepika Manchala", "deepikamanchala3@gmail.com", "Student"),
+    ]
+    for full_name, email, role in demo_accounts:
+        if not User.query.filter_by(email=email).first():
+            db.session.add(
+                User(
+                    full_name=full_name,
+                    email=email,
+                    password_hash=generate_password_hash("demo123"),
+                    role=role,
+                )
+            )
+
     if Venue.query.count() == 0:
         db.session.add_all(
             [

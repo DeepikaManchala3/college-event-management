@@ -10,7 +10,28 @@ auth_bp = Blueprint("auth", __name__)
 
 @auth_bp.route("/")
 def index():
-    return redirect(url_for("auth.login"))
+    return render_template("auth/home.html")
+
+
+@auth_bp.route("/demo-login/<role>", methods=["POST"])
+def demo_login(role):
+    demo_accounts = {
+        "admin": "admin@college.edu",
+        "organizer": "harsh@gmail.com",
+        "student": "deepikamanchala3@gmail.com",
+    }
+    email = demo_accounts.get(role)
+    user = User.query.filter_by(email=email).first() if email else None
+    if user is None:
+        flash("This demo account is not available yet.", "danger")
+        return redirect(url_for("auth.index"))
+
+    login_user(user)
+    if user.role == "Admin":
+        return redirect(url_for("admin.dashboard"))
+    if user.role == "Organizer":
+        return redirect(url_for("organizer.dashboard"))
+    return redirect(url_for("student.dashboard"))
 
 
 @auth_bp.route("/login", methods=["GET", "POST"])

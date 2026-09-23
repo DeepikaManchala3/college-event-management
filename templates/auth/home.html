@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="landing-page">
+    <div class="landing-heading">
+        <span class="eyebrow">COLLEGE EVENT MANAGEMENT SYSTEM</span>
+        <h1>Plan. Organize. Participate.</h1>
+        <p>Choose a dashboard to explore the live role experience.</p>
+    </div>
+
+    <div class="dashboard-card-grid">
+        <article class="dashboard-preview admin-preview">
+            <div class="preview-icon">A</div>
+            <div>
+                <span class="preview-role">ADMIN</span>
+                <h2>Admin Dashboard</h2>
+                <p>Approve events, manage venues, review registrations, and view reports.</p>
+                <small>admin@college.edu</small>
+            </div>
+            <form method="post" action="{{ url_for('auth.demo_login', role='admin') }}">
+                <button class="preview-btn" type="submit">Open Admin Dashboard</button>
+            </form>
+        </article>
+
+        <article class="dashboard-preview organizer-preview">
+            <div class="preview-icon">O</div>
+            <div>
+                <span class="preview-role">ORGANIZER</span>
+                <h2>Organizer Dashboard</h2>
+                <p>Create events, manage participants, schedule activities, and publish updates.</p>
+                <small>harsh@gmail.com</small>
+            </div>
+            <form method="post" action="{{ url_for('auth.demo_login', role='organizer') }}">
+                <button class="preview-btn" type="submit">Open Organizer Dashboard</button>
+            </form>
+        </article>
+
+        <article class="dashboard-preview student-preview">
+            <div class="preview-icon">S</div>
+            <div>
+                <span class="preview-role">STUDENT</span>
+                <h2>Student Dashboard</h2>
+                <p>Discover published events, register, view announcements, and track registrations.</p>
+                <small>deepikamanchala3@gmail.com</small>
+            </div>
+            <form method="post" action="{{ url_for('auth.demo_login', role='student') }}">
+                <button class="preview-btn" type="submit">Open Student Dashboard</button>
+            </form>
+        </article>
+    </div>
+
+    <div class="landing-footer">
+        <span>Want to use your own account?</span>
+        <a href="{{ url_for('auth.login') }}">Sign in normally</a>
+        <a href="{{ url_for('auth.register') }}">Create an account</a>
+    </div>
+</section>
+{% endblock %}
