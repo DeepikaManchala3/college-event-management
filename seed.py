@@ -19,7 +19,11 @@ def ensure_seed_data():
         ("Deepika Manchala", "deepikamanchala3@gmail.com", "Student"),
     ]
     for full_name, email, role in demo_accounts:
-        if not User.query.filter_by(email=email).first():
+        existing_user = User.query.filter_by(email=email).first()
+        if existing_user:
+            existing_user.full_name = full_name
+            existing_user.role = role
+        else:
             db.session.add(
                 User(
                     full_name=full_name,
